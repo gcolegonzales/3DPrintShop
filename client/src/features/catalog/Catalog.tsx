@@ -12,23 +12,9 @@ export default function Catalog() {
         .then(data => setProducts(data))
     }, [])
 
-    function addProduct() {
-        setProducts(prevState => [
-        ...prevState,
-        {
-            id: prevState.length + 101,
-            name: "product" + (prevState.length + 1),
-            price: (prevState.length + 1) * 100,
-            brand: 'some brand',
-            description: 'some description',
-            pictureUrl: 'http://picsum.photos/201'
-        }])
-    }
-
     return (
         <>
             <ProductList products={products} /> 
-            <Button variant="contained" onClick={addProduct}>Add Product</Button>
         </>
     )
 }
