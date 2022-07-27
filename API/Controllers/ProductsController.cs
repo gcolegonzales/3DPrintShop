@@ -7,9 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductsController : BaseApiController
     {
         private readonly StoreContext _context;
         public ProductsController(StoreContext context)
@@ -17,20 +15,20 @@ namespace API.Controllers
             // In order to get VS Code to use the _ instead of this.context, open the C# Extensions extension, and set the prefix to 
             // "_", and uncheck "Use this for Ctor (constructor) assignments
             _context = context;
-
         }
 
         [HttpGet]
         public async Task<ActionResult<List<Product>>> GetProducts()
         {
             return await _context.Products.ToListAsync();
-            
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetProduct(int id)
         {
-            return await _context.Products.FindAsync(id);
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+            return product;
         }
     }
 }
